@@ -67,3 +67,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  @apply bg-dark-primary
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.horizontal-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.float-right {
+  margin-left: auto;
+}
+
+h1 {
+  color: white
+}
