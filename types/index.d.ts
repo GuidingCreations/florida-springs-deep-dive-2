@@ -11,3 +11,7 @@ export interface selectionBarProps {
     buttons: buttonProps[];
 
 }
+
+declare type AuthFormProps = {
+    type: 'sign-in' | 'sign-up';
+}

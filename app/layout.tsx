@@ -20,9 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className= 'flex flex-col'>
         <div className="app-wrapper">
-          <MobileHeader />
           {children}
         </div>
       </body>

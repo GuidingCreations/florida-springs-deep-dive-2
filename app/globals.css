@@ -12,15 +12,20 @@ body {
 
 .app-wrapper {
   padding: 8px;
-
+  min-height: 100vh;
   @apply bg-dark-primary
 }
 
 .page-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 50px);
   
   @apply mt-3
+}
+
+.mobile-header {
+  height: 50px
 }
 
 .horizontal-container {
@@ -28,6 +33,22 @@ body {
   gap: 8px;
   align-items: center;
   
+}
+
+.auth-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  min-height: calc(100vh - 50px);
+
+}
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 0px !important;
 }
 
 .float-right {
@@ -97,14 +118,6 @@ h2 {
 }
 
 
-
-
-.stretch {
-  align-items: stretch !important;
-  justify-items: stretch !important;
-  justify-content: stretch !important;
-  justify-items: stretch !important;
-}
 
 
 
