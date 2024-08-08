@@ -31,9 +31,10 @@ export default function Home() {
 
         <div className="mt-1">
           <Image src="/icons/amenities-image.png" alt="spring" width={400} height={300} />
-          <p className="mt-1">Amenities vary spring by springs, and can include things such as kayaking, hiking, and diving. Some springs are famous for particular amenities that you truly can’t get anywhere else </p>
+          <p className="mt-1">Amenities vary spring by spring, and can include things such as kayaking, hiking, and diving. Some springs are famous for particular amenities that you truly can’t get anywhere else </p>
         </div>
       </section>
+
 
       <section>
         <div className="mt-3 flex gap-">
