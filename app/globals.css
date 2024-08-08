@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  color: white
+}
 
 body {
   @apply bg-dark-primary
@@ -9,11 +12,15 @@ body {
 
 .app-wrapper {
   padding: 8px;
+
+  @apply bg-dark-primary
 }
 
 .page-wrapper {
   display: flex;
   flex-direction: column;
+  
+  @apply mt-3
 }
 
 .horizontal-container {
@@ -27,9 +34,26 @@ body {
   margin-left: auto;
 }
 
+.mt-1 {
+  margin-top: 8px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.mt-3 {
+  margin-top: 32px;
+}
+
 h1 {
   color: white;
   font-size: 18px;
+}
+
+h2 {
+  color: white;
+  font-size: 16px;
 }
 
 .btn {
@@ -72,9 +96,7 @@ h1 {
   border: 1px solid white;
 }
 
-.mt-1 {
-  margin-top: 16px;
-}
+
 
 
 .stretch {
