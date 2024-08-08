@@ -69,7 +69,8 @@ const config = {
           900: "#101828",
         },
         dark: {
-          primary: "#242323"
+          primary: "#242323",
+          secondary: "#313131"
         },
         theme: {
           primary: "#06C7C9",
