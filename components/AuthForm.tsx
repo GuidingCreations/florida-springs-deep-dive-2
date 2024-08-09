@@ -16,6 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { signUp } from "@/lib/actions/user.action";
+
+
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -28,6 +31,7 @@ const formSchema = z.object({
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
+    dateOfBirth: z.string().date(),
 });
 
 const AuthForm = (props: AuthFormProps) => {
@@ -38,15 +42,30 @@ const AuthForm = (props: AuthFormProps) => {
       firstName: "",
       lastName: "",
       password: "",
+      dateOfBirth: ""
     },
   });
 
 
+  const [loading, setLoading] = React.useState(false);
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-  }
+    setLoading(true);
+    console.log('values ', values);
+    const userData = {
+        email: values.email,
+        password: values.password,
+        firstName: values.firstName, 
+        lastName: values.lastName,
+        dateOfBirth: values.dateOfBirth
+        };
+
+        console.log('attempt to sign up')
+    signUp(userData)
+    }
+
+  
+
 
 
   return (
@@ -97,6 +116,22 @@ const AuthForm = (props: AuthFormProps) => {
               <FormLabel>Last name</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your last name here" {...field} className="bg-dark-secondary" autoComplete="family-name"/>
+              </FormControl>
+              
+              <FormMessage className="text-red-600"/>
+            </FormItem>
+          )}
+        >
+        </FormField>
+
+        <FormField
+          control={form.control}
+          name="dateOfBirth"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{`Date of birth (YYYY-MM-DD)`}</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your date of birth here" {...field} className="bg-dark-secondary" type="string" autoComplete="date-of-birth"/>
               </FormControl>
               
               <FormMessage className="text-red-600"/>

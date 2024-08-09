@@ -15,3 +15,11 @@ export interface selectionBarProps {
 declare type AuthFormProps = {
     type: 'sign-in' | 'sign-up';
 }
+
+declare type SignUpParams = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    dateOfBirth: string;
+  };
