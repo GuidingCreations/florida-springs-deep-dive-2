@@ -64,7 +64,7 @@ const AuthForm = (props: AuthFormProps) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email here" {...field} className="bg-dark-secondary"/>
+                <Input placeholder="Enter your email here" {...field} className="bg-dark-secondary" autoComplete="email"/>
               </FormControl>
               
               <FormMessage className="text-red-600"/>
@@ -80,7 +80,7 @@ const AuthForm = (props: AuthFormProps) => {
             <FormItem>
               <FormLabel>First name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your first name here" {...field} className="bg-dark-secondary"/>
+                <Input placeholder="Enter your first name here" {...field} className="bg-dark-secondary" autoComplete="given-name"/>
               </FormControl>
               
               <FormMessage className="text-red-600"/>
@@ -96,7 +96,7 @@ const AuthForm = (props: AuthFormProps) => {
             <FormItem>
               <FormLabel>Last name</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your last name here" {...field} className="bg-dark-secondary"/>
+                <Input placeholder="Enter your last name here" {...field} className="bg-dark-secondary" autoComplete="family-name"/>
               </FormControl>
               
               <FormMessage className="text-red-600"/>
@@ -112,7 +112,7 @@ const AuthForm = (props: AuthFormProps) => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your password here" {...field} className="bg-dark-secondary" type="password"/>
+                <Input placeholder="Enter your password here" {...field} className="bg-dark-secondary" type="password" autoComplete="current-password"/>
               </FormControl>
               
               <FormMessage className="text-red-600"/>
