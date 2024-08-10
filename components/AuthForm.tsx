@@ -1,4 +1,7 @@
 "use client";
+
+// imports
+
 import { AuthFormProps } from "@/types";
 import React from "react";
 import Logo from "./Logo";
@@ -17,8 +20,11 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signUp } from "@/lib/actions/user.action";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
+// establish form schema
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -30,12 +36,20 @@ const formSchema = z.object({
     .min(2, { message: "Last name must be at least 2 characters long" }),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
+    .min(8, { message: "Password must be at least 8 characters long" }),
     dateOfBirth: z.string().date(),
 });
 
+// Component
+
 const AuthForm = (props: AuthFormProps) => {
-  const form = useForm<z.infer<typeof formSchema>>({
+
+const router = useRouter();
+
+
+// init form
+
+    const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
@@ -44,24 +58,59 @@ const AuthForm = (props: AuthFormProps) => {
       password: "",
       dateOfBirth: ""
     },
-  });
+    });
 
+// establish isLoading state
 
-  const [loading, setLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  console.log('Is loading ', isLoading);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setLoading(true);
-    console.log('values ', values);
-    const userData = {
-        email: values.email,
-        password: values.password,
-        firstName: values.firstName, 
-        lastName: values.lastName,
-        dateOfBirth: values.dateOfBirth
-        };
+// handle form submission
 
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    
+    setIsLoading(true);
+    
+    console.log('Is loading ', isLoading);
+
+    try {
+
+        console.log('values ', values);
+        
+// User data
+
+        const userData = {
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName, 
+            lastName: values.lastName,
+            dateOfBirth: values.dateOfBirth
+            };
+    
         console.log('attempt to sign up')
-    signUp(userData)
+        
+// Attempt to sign up
+
+        if  ( (await signUp(userData)).responseCode === 200) {
+            
+            console.log('Response code 200')
+            setIsLoading(false); 
+            console.log('Is loading', isLoading);
+            console.log('Attempt to route to home');
+            router.push('/');
+            console.log('Routed to home');
+
+
+        } else {
+            console.log('Response code not 200')
+        }
+        
+// error handling
+
+    } catch (error) {
+        console.error('Error', error);
+    };
+    
     }
 
   
@@ -156,7 +205,9 @@ const AuthForm = (props: AuthFormProps) => {
         >
         </FormField>
 
-        <Button type="submit" className="btn btn-primary mt-1">Submit</Button>
+        <Button type="submit" className="btn btn-primary mt-1" disabled = {isLoading}>
+            {isLoading? <Loader2 className="animate-spin" size={20}/> : 'Sign Up'}
+        </Button>
       
       </form>
     

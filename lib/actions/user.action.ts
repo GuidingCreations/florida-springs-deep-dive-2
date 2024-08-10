@@ -48,13 +48,17 @@ const {
   }
 }
 
+// Sign up function
+
 export const signUp = async ({ password, ...userData }: SignUpParams) => {
-    console.log('top')
+    
+
     const { email, firstName, lastName, dateOfBirth } = userData;
     
     let newUserAccount;
   
     try {
+
       const { account, database } = await createAdminClient();
 
       console.log('admin client created' );
@@ -70,7 +74,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
       if(!newUserAccount) throw new Error('Error creating user');
 
-      console.log('attempt to create new user' );
+      console.log('attempt to create new user document' );
 
       const newUser = await database.createDocument(
         DATABASE_ID!,
@@ -89,16 +93,21 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
       const session = await account.createEmailPasswordSession(email, password);
   
+      console.log('session created', session);
+
       cookies().set("appwrite-session", session.secret, {
         path: "/",
         httpOnly: true,
         sameSite: "strict",
         secure: true,
       });
+
+      console.log('session cookie set');
   
-      return parseStringify(newUser);
+      return {responseCode: 200, user: parseStringify(newUser)};
     } catch (error) {
       console.error('Error', error);
+      return { error: error, responseCode:  500}
     }
   }
   
