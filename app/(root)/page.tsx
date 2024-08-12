@@ -1,8 +1,12 @@
 import MobileHeader from "@/components/MobileHeader";
 import SelectionBar from "@/components/SelectionBar";
 import Image from "next/image";
+import { getLoggedInUser } from "@/lib/actions/user.action";
 
 export default function Home() {
+
+  getLoggedInUser();
+
   return (
     <div className="page-wrapper mt-3">
       <SelectionBar buttons={[
