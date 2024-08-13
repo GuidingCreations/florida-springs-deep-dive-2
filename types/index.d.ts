@@ -23,3 +23,22 @@ declare type SignUpParams = {
     password: string;
     dateOfBirth: string;
   };
+
+  declare type userType = {
+    userId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    $id: string;
+    $tenant: string;
+    $createdAt: string
+    $updatedAt: string;
+    $permissions: [];
+    $databaseId: string;
+    $collectionId: string;
+  }
+
+  export interface UserTypeInterface {
+    user?: userType;
+  }

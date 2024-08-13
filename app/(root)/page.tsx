@@ -5,7 +5,7 @@ import { getLoggedInUser } from "@/lib/actions/user.action";
 
 export default function Home() {
 
-  getLoggedInUser();
+const loggedInUser = getLoggedInUser();
 
   return (
     <div className="page-wrapper mt-3">

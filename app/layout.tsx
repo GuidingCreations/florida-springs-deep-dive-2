@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MobileHeader from "@/components/MobileHeader";
 
+
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,12 +20,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
+
   return (
     <html lang="en">
       <body className= 'flex flex-col'>
+        
         <div className="app-wrapper">
           {children}
         </div>
+
       </body>
     </html>
   );

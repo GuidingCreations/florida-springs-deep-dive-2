@@ -123,6 +123,6 @@ export async function getLoggedInUser() {
     return parseStringify(user);
   } catch (error) {
     console.log("Error getting logged in user: ", error);
-    return null;
+    return {};
   }
 }

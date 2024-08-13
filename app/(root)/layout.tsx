@@ -1,16 +1,18 @@
 
+
 import MobileHeader from "@/components/MobileHeader";
+import { getLoggedInUser } from "@/lib/actions/user.action";
 
-
-
-export default function RootLayout({
-  children,
+export default async function RootLayout({
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
+    
+const user = await getLoggedInUser();
+    return (
         <div>
-          <MobileHeader />
+          <MobileHeader user={user} />
           {children}
         </div>
       
