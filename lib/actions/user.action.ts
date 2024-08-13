@@ -107,9 +107,11 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     console.log("session cookie set");
 
     return { responseCode: 200, user: parseStringify(newUser) };
-  } catch (error) {
-    console.error("Error", error);
-    return { error: error, responseCode: 500 };
+  } catch (error : any) {
+    
+    console.error("Error", error.response);
+    if (error.response.code === 409 ) {return { responseCode: 409, error: error.response.message }}
+    else return { error: error, responseCode: 500 };
   }
 };
 
@@ -121,8 +123,9 @@ export async function getLoggedInUser() {
     const user = await getUserInfo({ userId: result.$id });
     console.log("logged in user", user);
     return parseStringify(user);
-  } catch (error) {
-    console.log("Error getting logged in user: ", error);
-    return {};
+  } catch (error : any) {
+    console.log("Error getting logged in user: ", error.response);
+    
+    return { error: error, responseCode: 500 };
   }
 }

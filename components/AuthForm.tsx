@@ -91,7 +91,9 @@ const router = useRouter();
         
 // Attempt to sign up
 
-        if  ( (await signUp(userData)).responseCode === 200) {
+            const signUpResponse = await signUp(userData);
+
+        if  ( signUpResponse.responseCode === 200) {
             
             console.log('Response code 200')
             setIsLoading(false); 
@@ -101,8 +103,11 @@ const router = useRouter();
             console.log('Routed to home');
 
 
-        } else {
-            console.log('Response code not 200')
+        } else if (signUpResponse.responseCode === 409) {
+            console.log('Response code not 200');
+            window.alert('User with this email already exists');
+            setIsLoading(false);
+
         }
         
 // error handling
