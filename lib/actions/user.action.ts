@@ -109,23 +109,27 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     return { responseCode: 200, user: parseStringify(newUser) };
   } catch (error : any) {
     
-    console.error("Error", error.response);
+    console.error("Error in user.actions.ts", error.response);
     if (error.response.code === 409 ) {return { responseCode: 409, error: error.response.message }}
-    else return { error: error, responseCode: 500 };
+    else return { error: error, responseCode: 500, responseType: "error" };
   }
 };
 
 export async function getLoggedInUser() {
   try {
+
+    console.log("Admin client attempt")
     const { account } = await createSessionClient();
+    console.log("Admin client created")
+    
     const result = await account.get();
     console.log("Account result", result);
     const user = await getUserInfo({ userId: result.$id });
     console.log("logged in user", user);
     return parseStringify(user);
   } catch (error : any) {
-    console.log("Error getting logged in user: ", error.response);
+    console.log("Error getting logged in user: ", error);
     
-    return { error: error, responseCode: 500 };
+    return { error: error, responseCode: 500, responseType: "error" };
   }
 }

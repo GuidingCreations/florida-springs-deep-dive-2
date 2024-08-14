@@ -8,6 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 export const parseStringify = (value: any) => 
   {
     console.log('attempt')
-    return JSON.parse(JSON.stringify(value))
+    if (value === null || value === undefined) {
+      return value
+    } else return JSON.parse(JSON.stringify(value))
     
   };

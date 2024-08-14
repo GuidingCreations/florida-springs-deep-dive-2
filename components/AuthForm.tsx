@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"
 import { signUp } from "@/lib/actions/user.action";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import AlertComponent from "./AlertComponent";
 
 // establish form schema
 
@@ -63,6 +63,8 @@ const router = useRouter();
 // establish isLoading state
 
   const [isLoading, setIsLoading] = React.useState(false);
+  const [showError, setShowError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState('');
   console.log('Is loading ', isLoading);
 
 // handle form submission
@@ -103,10 +105,13 @@ const router = useRouter();
             console.log('Routed to home');
 
 
-        } else if (signUpResponse.responseCode === 409) {
+        } else  {
             console.log('Response code not 200');
-            window.alert('User with this email already exists');
+            setShowError(true);
+            setErrorMessage(signUpResponse.error);
+            window.alert('User with email already exists');
             setIsLoading(false);
+            
 
         }
         
@@ -124,8 +129,11 @@ const router = useRouter();
 
   return (
     <section className="center flex flex-col">
-      <Logo height={35} width={35} />
       
+      {showError ? <AlertComponent alertMessage = {errorMessage} alertType = {'destructive'}/> : null}
+
+      <Logo height={35} width={35} />
+
       <Form {...form}>
       
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3 mt-3">

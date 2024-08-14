@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import Logo from './Logo'
 import { UserTypeInterface } from '@/types'
 
-const MobileHeader = async (user : UserTypeInterface) => {
+const MobileHeader =  (user : UserTypeInterface) => {
 
     const pathname = usePathname();
 

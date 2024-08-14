@@ -12,7 +12,8 @@ export default async function RootLayout({
 const user = await getLoggedInUser();
     return (
         <div>
-          <MobileHeader user={user} />
+            {user.email ? <MobileHeader user = {user}/> : <MobileHeader />}
+          
           {children}
         </div>
       
