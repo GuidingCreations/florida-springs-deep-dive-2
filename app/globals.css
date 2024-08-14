@@ -77,6 +77,16 @@ h2 {
   font-size: 16px;
 }
 
+h3 {
+  color: white;
+  font-size: 14px;
+}
+
+p {
+  color: white;
+  font-size: 12px;
+}
+
 .btn {
   padding: 8px;
   color: white;

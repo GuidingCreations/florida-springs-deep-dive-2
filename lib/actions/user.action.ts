@@ -42,7 +42,7 @@ export const signIn = async ({
   try {
     const { account } = await createAdminClient();
     const session = await account.createEmailPasswordSession(email, password);
-
+    console.log('Session created', session)
     cookies().set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
@@ -51,10 +51,11 @@ export const signIn = async ({
     });
 
     const user = await getUserInfo({ userId: session.userId });
-
-    return parseStringify(user);
-  } catch (error) {
+    console.log('Get user info from sign-in', user)
+    return {user: parseStringify(user), response: 200};
+  } catch (error : any) {
     console.error("Error", error);
+    return { responseCode: 500, error: error.response.message };
   }
 };
 
