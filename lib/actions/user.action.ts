@@ -140,9 +140,12 @@ export async function getUserProfilePicture() {
     const user = await getLoggedInUser();
     console.log("User from profile pic", user);
     if (user?.responseCode === 500) {
-      return './icons/blank-profile.svg';
+      return null;
     } else {
-      return user.ImageURL;
+      if (user.ImageURL) {
+        return user.ImageURL;
+      } else {
+        return '/icons/blank-profile.svg'}
     }
   
   } catch (error) {
