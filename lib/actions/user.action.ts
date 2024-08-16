@@ -134,3 +134,18 @@ export async function getLoggedInUser() {
     return { error: error, responseCode: 500, responseType: "error" };
   }
 }
+
+export async function getUserProfilePicture() {
+  try {
+    const user = await getLoggedInUser();
+    console.log("User from profile pic", user);
+    if (user?.responseCode === 500) {
+      return './icons/blank-profile.svg';
+    } else {
+      return user.ImageURL;
+    }
+  
+  } catch (error) {
+    console.log("Error getting user profile picture", error);
+  }
+}

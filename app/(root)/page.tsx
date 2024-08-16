@@ -1,4 +1,3 @@
-import MobileHeader from "@/components/MobileHeader";
 import SelectionBar from "@/components/SelectionBar";
 import Image from "next/image";
 
