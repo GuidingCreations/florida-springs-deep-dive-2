@@ -1,10 +1,8 @@
+import AmenitiesPageServer from '@/components/Pages/Amenities/AmenitiesPageServer'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div className='page-wrapper'>
-        <div>Amenities</div>
-    </div>
+  return ( <AmenitiesPageServer />
   )
 }
 
