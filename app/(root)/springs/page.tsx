@@ -1,4 +1,4 @@
-import SpringsPageServer from '@/components/Pages/Amenities/Springs/SpringsPageServer'
+import SpringsPageServer from '@/components/Pages/Springs/SpringsPageServer'
 import { getUserInfo } from '@/lib/actions/user.action'
 import React from 'react'
 

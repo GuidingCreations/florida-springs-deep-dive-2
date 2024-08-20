@@ -3,6 +3,8 @@
 import MobileHeaderServer from "@/components/MobileHeaderServer";
 import { getLoggedInUser } from "@/lib/actions/user.action";
 
+export const revalidate = 0;
+
 export default async function RootLayout({
     children,
 }: Readonly<{
