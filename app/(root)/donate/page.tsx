@@ -1,11 +1,8 @@
+import DonatePage from '@/components/DonatePage'
 import React from 'react'
 
 const page = () => {
-  return (
-    <div className='page-wrapper'>
-        Donate
-    </div>
-  )
+  return ( <DonatePage /> )
 }
 
 export default page
