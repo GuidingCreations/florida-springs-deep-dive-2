@@ -1,3 +1,5 @@
+'use server'
+
 import React from 'react'
 import { getLoggedInUser, getUserProfilePicture } from '@/lib/actions/user.action'
 import Image from 'next/image';
