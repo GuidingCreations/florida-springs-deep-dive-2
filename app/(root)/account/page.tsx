@@ -1,9 +1,9 @@
 import React from 'react'
-import AccountPage from '@/components/AccountPage'
+import AccountPageServer from '@/components/AccountPageServer'
 
 const page = () => {
   return (
-    <AccountPage />
+    <AccountPageServer />
   )
 }
 
