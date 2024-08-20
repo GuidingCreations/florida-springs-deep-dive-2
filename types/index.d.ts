@@ -42,3 +42,13 @@ declare type SignUpParams = {
   export interface UserTypeInterface {
     user?: userType;
   }
+
+  export type ImageProps = {
+  
+    imageURL: string;
+    className?: string;
+    height: number;
+    width: number;
+    alt: string;
+
+}

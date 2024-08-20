@@ -7,7 +7,6 @@ import ImageResourceGenerator from './ImageResourceGenerator'
 const MobileHeaderServer = async () => {
 
     const user = await getUserProfilePicture();
-    console.log('USER at server', user);
 
   return (
 

@@ -52,11 +52,8 @@ const AuthForm = (props: AuthFormProps) => {
   // handle form submission
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Values ", values);
     setIsLoading(true);
 
-    console.log("Is loading ", isLoading);
-    console.log('bool', props.type === 'sign-up')
     if (props.type === "sign-up") {
       try {
         console.log("values ", values);
@@ -71,19 +68,13 @@ const AuthForm = (props: AuthFormProps) => {
           dateOfBirth: values.dateOfBirth!,
         };
 
-        console.log("attempt to sign up");
 
         // Attempt to sign up
 
         const signUpResponse = await signUp(userData);
 
         if (signUpResponse.responseCode === 200) {
-          console.log("Response code 200");
-          setIsLoading(false);
-          console.log("Is loading", isLoading);
-          console.log("Attempt to route to home");
           router.push("/");
-          console.log("Routed to home");
         } else {
           console.log("Response code not 200");
           setShowError(true);
@@ -100,13 +91,10 @@ const AuthForm = (props: AuthFormProps) => {
 
     if (props.type === 'sign-in') {
       try {
-        console.log("attempt to sign in");
         const signInResponse = await signIn({email: values.email, password: values.password});
 
         if (signInResponse.response === 200) {
-          console.log("Successful sign in");
           router.push("/");
-          setIsLoading(false);
         } else {
           setShowError(true);
           setErrorMessage(signInResponse.error.response.message);
@@ -275,7 +263,7 @@ const AuthForm = (props: AuthFormProps) => {
       </Form>
 
       {props.type === "sign-up" ? (
-        <div className="flex gap-1">
+        <div className="flex gap-1 mt-1">
           <p>Already have an account? </p>
           <Link href="/sign-in" className="underline">
             <p>Sign in here</p>
