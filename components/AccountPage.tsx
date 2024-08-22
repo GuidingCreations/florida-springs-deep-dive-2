@@ -27,8 +27,6 @@ const AccountPage = (props: AccountPageProps) => {
     
     const target = e.target as HTMLInputElement & { files: FileList };
     
-    console.log("Target", target.files[0]);
-    
     setUserImage(target.files[0]);
     
     const file = new FileReader();
