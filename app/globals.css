@@ -156,3 +156,14 @@ button:disabled {
   margin-left: auto;
   margin-right: auto;
 }
+
+.edit-profile-pic {
+  position: fixed;
+  right: 43%;
+  top: 28.5%;
+  z-index: 10000000;
+}
+
+.float-left {
+  margin-right: auto;
+}

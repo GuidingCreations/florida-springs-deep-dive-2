@@ -1,35 +1,72 @@
+"use client";
 
-import React from 'react'
-import { getLoggedInUser, getUserProfilePicture } from '@/lib/actions/user.action'
-import Image from 'next/image';
+import React, { useRef } from "react";
+import {
+  getLoggedInUser,
+  getUserProfilePicture,
+} from "@/lib/actions/user.action";
+import Image from "next/image";
+import PrimaryButton from "./PrimaryButton";
 
 declare type AccountPageProps = {
-    user: any;
-    userPic: any;
-}
+  user: any;
+  userPic: any;
+};
 
-const AccountPage = async (props: AccountPageProps) => {
+const AccountPage = (props: AccountPageProps) => {
+  const fileRef = useRef<HTMLInputElement>(null);
 
-console.log('user pic ap', props.userPic)
-console.log('user ap', props.user )
+  const [userImage, setUserImage] = React.useState<File | undefined>(
+    props.userPic
+  );
+  const [previewUserImage, setPreviewUserImage] = React.useState<
+    string | undefined
+  >(props.userPic);
 
-return (
-    <div className='page-wrapper'>
-        <h1 className='center-self font-bold'>{props.user.firstName + " " + props.user.lastName}</h1>
-    <div className='flex items-center justify-center w-100'>
-    <div className=' profile-pic-wrapper'>
-        <Image 
-        src={props.userPic}
-        height={200}
-        width={200}
-        alt='Profile Picture'
-        className='profile-pic'
+  const handleImageChange = (e: React.FormEvent<HTMLInputElement>) => {
+    
+    const target = e.target as HTMLInputElement & { files: FileList };
+    
+    console.log("Target", target.files[0]);
+    
+    setUserImage(target.files[0]);
+    
+    const file = new FileReader();
+    
+    file.onload = () => {
+        setPreviewUserImage(file.result as string);
+    };
+
+    file.readAsDataURL(target.files[0]);
+  
+};
+
+  return (
+    <div className="page-wrapper gap-2">
+      <h1 className="center-self font-bold">
+        {props.user.firstName + " " + props.user.lastName}
+      </h1>
+      <div className="flex flex-col items-center justify-center w-100 gap-2">
+        <div className=" profile-pic-wrapper">
+          <Image
+            src={previewUserImage || props.userPic}
+            height={150}
+            width={150}
+            alt="Profile Picture"
+            className="profile-pic min-h-[150px] min-w-[150px] max-h-[150px] max-w-[150px]"
+            
+          />
+        </div>
+
+        <div className="flex items-center gap-2"></div>
+        <PrimaryButton
+          buttonText="Change profile picture"
+          onClick={() => fileRef.current?.click()}
         />
+        <input type="file" ref={fileRef} hidden onChange={handleImageChange} />
+      </div>
     </div>
-    </div>
-    </div>
+  );
+};
 
-  )
-}
-
-export default AccountPage
+export default AccountPage;

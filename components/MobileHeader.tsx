@@ -13,7 +13,7 @@ import Picture from "./Picture";
 const MobileHeader = (user: any) => {
   
   const pathname = usePathname();
-
+  console.log('user MH', user)
   return (
     <div className="horizontal-container mobile-header">
       

@@ -8,6 +8,7 @@ import AccountPage from './AccountPage'
 const AccountPageServer = async () => {
 
   const user = await getLoggedInUser();
+  console.log('Logged in user', user)
   const userPic = await getUserProfilePicture();
 
   return (

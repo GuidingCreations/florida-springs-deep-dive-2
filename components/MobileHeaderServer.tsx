@@ -7,11 +7,11 @@ import ImageResourceGenerator from './ImageResourceGenerator'
 const MobileHeaderServer = async () => {
 
     const user = await getUserProfilePicture();
-
+    console.log('MHS', user)
   return (
 
     <div>
-        <MobileHeader user = {user}/>
+        <MobileHeader user = {user ? user : '/icons/blank-profile.svg'}/>
     </div>
   )
 }

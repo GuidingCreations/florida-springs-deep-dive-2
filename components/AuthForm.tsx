@@ -25,6 +25,8 @@ import { useRouter } from "next/navigation";
 import AlertComponent from "./AlertComponent";
 import Link from "next/link";
 import { authFormSchema } from "@/lib/utils";
+import Picture from "./Picture";
+
 
 // establish form schema
 
