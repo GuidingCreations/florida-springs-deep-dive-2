@@ -13,7 +13,7 @@ const AccountPageServer = async () => {
 
   return (
     <AccountPage 
-    user={user ? user : null}
+    user={user ? user : {}}
     userPic={userPic ? userPic : '/icons/blank-profile.svg'}
     />
   )
