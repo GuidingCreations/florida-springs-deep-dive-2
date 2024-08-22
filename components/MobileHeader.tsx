@@ -5,15 +5,15 @@ import PrimaryButton from "./PrimaryButton";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
-import { UserTypeInterface } from "@/types";
+import { MobileHeaderProps, UserTypeInterface } from "@/types";
 import Picture from "./Picture";
 
 // Component
 
-const MobileHeader = (user: any) => {
+const MobileHeader = ( props: MobileHeaderProps ) => {
   
   const pathname = usePathname();
-  console.log('user MH', user)
+  console.log('user MH', props.userEmail)
   return (
     <div className="horizontal-container mobile-header">
       
@@ -23,10 +23,10 @@ const MobileHeader = (user: any) => {
 
 {/* If there is a logged in user, display their profile picture. If not, display a sign up button. If the user is on the sign up or sign in page, do not display anything. */}
 
-      {user.user ? (
+      {props.userEmail ? (
         <Link className="profile-pic-wrapper float-right" href= '/account'>
         <Picture
-          imageURL={user.user}
+          imageURL={props.userPic}
           height={50}
           width={50}
           alt="profile picture"

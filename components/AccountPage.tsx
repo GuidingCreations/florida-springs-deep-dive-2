@@ -14,7 +14,8 @@ declare type AccountPageProps = {
 };
 
 const AccountPage = (props: AccountPageProps) => {
-  const fileRef = useRef<HTMLInputElement>(null);
+  
+    const fileRef = useRef<HTMLInputElement>(null);
 
   const [userImage, setUserImage] = React.useState<File | undefined>(
     props.userPic

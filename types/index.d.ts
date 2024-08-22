@@ -52,3 +52,8 @@ declare type SignUpParams = {
     alt: string;
 
 }
+
+export type MobileHeaderProps = {
+  userPic: any;
+  userEmail: string | undefined;
+}

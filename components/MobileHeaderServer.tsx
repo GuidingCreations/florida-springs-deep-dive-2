@@ -1,17 +1,23 @@
 'use server'
 import React from 'react'
 import MobileHeader from './MobileHeader'
-import { getUserProfilePicture } from '@/lib/actions/user.action'
+import { getLoggedInUser, getUserProfilePicture } from '@/lib/actions/user.action'
 import ImageResourceGenerator from './ImageResourceGenerator'
 
 const MobileHeaderServer = async () => {
 
-    const user = await getUserProfilePicture();
-    console.log('MHS', user)
+    const userPic = await getUserProfilePicture();
+    const user = await getLoggedInUser();
+    
+    console.log('MHS email', user.email)
+    console.log('MHS', userPic)
   return (
 
     <div>
-        <MobileHeader user = {user ? user : '/icons/blank-profile.svg'}/>
+        <MobileHeader 
+            userPic = {userPic ? userPic : '/icons/blank-profile.svg'}
+            userEmail= {user.email}
+            />
     </div>
   )
 }
