@@ -64,6 +64,10 @@ const AccountPage = (props: AccountPageProps) => {
         />
         <input type="file" ref={fileRef} hidden onChange={handleImageChange} />
       </div>
+      
+
+
+
     </div>
   );
 };

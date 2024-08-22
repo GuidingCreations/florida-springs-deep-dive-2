@@ -12,10 +12,14 @@ const AccountPageServer = async () => {
   const userPic = await getUserProfilePicture();
 
   return (
+    <>
     <AccountPage 
     user={user ? user : {}}
     userPic={userPic ? userPic : '/icons/blank-profile.svg'}
     />
+     
+
+    </>
   )
 }
 
