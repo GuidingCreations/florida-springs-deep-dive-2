@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { use, useRef } from "react";
 import {
   getLoggedInUser,
   getUserProfilePicture,
@@ -9,11 +9,16 @@ import Image from "next/image";
 import PrimaryButton from "./PrimaryButton";
 import { deleteUserProfilePicture } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/lib/actions/cloudinary.actions";
+import { mkdir } from "fs";
 
+const cloudinary = require('cloudinary').v2;
+const path = require('path');
 declare type AccountPageProps = {
   user: any;
   userPic: any;
 };
+
 
 const AccountPage = (props: AccountPageProps) => {
   const router = useRouter();
@@ -23,7 +28,7 @@ const AccountPage = (props: AccountPageProps) => {
   const [userImage, setUserImage] = React.useState<File | undefined>(
     props.userPic
   );
-  
+
   const [previewUserImage, setPreviewUserImage] = React.useState<
     string | undefined
   >(props.userPic);
@@ -34,16 +39,42 @@ const AccountPage = (props: AccountPageProps) => {
     setUserImage(target.files[0]);
 
     const file = new FileReader();
+    file.readAsDataURL(target.files[0]);
 
     file.onload = () => {
       setPreviewUserImage(file.result as string);
     };
+    const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
+    const data = new FormData();
 
-    file.readAsDataURL(target.files[0]);
-  };
+    data.append("file", target.files[0]);
+    data.append("upload_preset", "fl-springs-deep-dive");
+    data.append("api_key", process.env.CLOUDINARY_API_KEY!);
+    data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
+    data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
+
+    fetch(url, {
+      method: 'POST',
+      body: data
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      console.log('data', data);
+    }).catch((error) => {
+      console.log('error', error);
+    });
+  }
+
+
+
+
+
+    // data.append("upload_preset", "fl-springs-deep-dive");
+    // data.append("file", target.files[0]);
+    // data.append("api_key", process.env.CLOUDINARY_API_KEY);
 
   const [isLoading, setIsLoading] = React.useState(false);
-  
+
   return (
     <div className="page-wrapper gap-2">
       <h1 className="center-self font-bold">
@@ -63,31 +94,36 @@ const AccountPage = (props: AccountPageProps) => {
         <div className="flex items-center gap-2">
           <PrimaryButton
             buttonText="Change profile picture"
-            onClick={() => fileRef.current?.click()}
+            onClick={() => {
+              fileRef.current?.click();
+            }}
           />
-
-        
 
           <PrimaryButton
             buttonText="Delete profile picture"
             className="bg-red-500"
             onClick={() => {
               setIsLoading(true);
-              deleteUserProfilePicture({ userId: props.user.$id }).then((response) => {
-                if (response?.responseCode === 200) {
-                  router.push("/");
+              deleteUserProfilePicture({ userId: props.user.$id }).then(
+                (response) => {
+                  if (response?.responseCode === 200) {
+                    router.push("/");
+                  }
                 }
-              });
+              );
               setIsLoading(false);
             }}
             type="destroy"
             isLoading={isLoading}
-          >
-            
-
-          </PrimaryButton>
+          ></PrimaryButton>
         </div>
-        <input type="file" ref={fileRef} hidden onChange={handleImageChange} />
+        <input
+          type="file"
+          ref={fileRef}
+          hidden
+          onChange={handleImageChange}
+          accept="image/png, image/jpeg, image/jpg, image/svg"
+        />
       </div>
     </div>
   );
