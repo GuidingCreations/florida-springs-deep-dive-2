@@ -7,7 +7,7 @@ import { parseStringify } from "../utils";
 import { SignUpParams } from "@/types";
 
 const {
-  APPWRITE_DATABASE_ID: DATABASE_ID,
+  NEXT_APPWRITE_DATABASE_ID: DATABASE_ID,
   APPWRITE_USER_COLLECTION_ID: USER_COLLECTION_ID,
   APPWRITE_BANK_COLLECTION_ID: BANK_COLLECTION_ID,
 } = process.env;
@@ -79,9 +79,9 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
     );
 
     if (!newUserAccount) throw new Error("Error creating user");
-
+    console.log("new user account created", newUserAccount);
     console.log("attempt to create new user document");
-
+    console.log('appwrte database id', DATABASE_ID)
     const newUser = await database.createDocument(
       DATABASE_ID!,
       USER_COLLECTION_ID!,
@@ -121,9 +121,10 @@ export async function getLoggedInUser() {
 
     console.log("Admin client attempt")
     const { account } = await createSessionClient();
-    console.log("Admin client created")
+    console.log("Admin client created", account)
     
     const result = await account.get();
+    
     console.log("Account result", result);
     const user = await getUserInfo({ userId: result.$id });
     console.log("logged in user", user);
