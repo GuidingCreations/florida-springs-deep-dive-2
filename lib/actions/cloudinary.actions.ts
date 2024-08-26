@@ -45,7 +45,8 @@ export const destroyImage = async () => {
 
   export const uploadImage = async (fd : FormData) => {
 
-    console.log('fd', fd);
+    try {
+      console.log('fd', fd);
     
     const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
     
@@ -54,10 +55,18 @@ export const destroyImage = async () => {
       method: 'POST',
       body: fd
     })
-    console.log('cloudinary response', cloudinaryResponse);
 
-    return {response: 'hello'}
+    const data = await cloudinaryResponse.json();
+    console.log('data', data);
+ 
+    return data;
 
+      
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
+    
   }
 
 

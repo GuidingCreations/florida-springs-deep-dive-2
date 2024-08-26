@@ -53,16 +53,22 @@ const AccountPage = (props: AccountPageProps) => {
     data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
     data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
 
-    fetch(url, {
-      method: 'POST',
-      body: data
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.log('data', data);
+    uploadImage(data).then((response) => {
+      console.log('response', response);
     }).catch((error) => {
       console.log('error', error);
     });
+
+    // fetch(url, {
+    //   method: 'POST',
+    //   body: data
+    // }).then((response) => {
+    //   return response.json();
+    // }).then((data) => {
+    //   console.log('data', data);
+    // }).catch((error) => {
+    //   console.log('error', error);
+    // });
   }
 
 
