@@ -37,38 +37,51 @@ const AccountPage = (props: AccountPageProps) => {
   >(props.userPic);
 
   const handleImageChange = (e: React.FormEvent<HTMLInputElement>) => {
+
+
+   
+
     const target = e.target as HTMLInputElement & { files: FileList };
 
-    setUserImage(target.files[0]);
+    console.log('size,', target.files[0].size)
 
-    const file = new FileReader();
-    file.readAsDataURL(target.files[0]);
+    if (target.files[0].size > 10485760) {
+      alert("File size should be less than 10MB, please re-select");
+      return;
+    } else {
 
-    file.onload = () => {
-      setPreviewUserImage(file.result as string);
-    };
-    
+      setUserImage(target.files[0]);
+  
+      const file = new FileReader();
+      file.readAsDataURL(target.files[0]);
+  
+      file.onload = () => {
+        setPreviewUserImage(file.result as string);
+      };
+      
+  
+      const data = new FormData();
+  
+      data.append("file", target.files[0]);
+      data.append("upload_preset", "fl-springs-deep-dive");
+      data.append("api_key", process.env.CLOUDINARY_API_KEY!);
+      data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
+      data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
+  
+      changeUserProfilePicture({formData : data})
+  
+      // fetch(url, {
+      //   method: 'POST',
+      //   body: data
+      // }).then((response) => {
+      //   return response.json();
+      // }).then((data) => {
+      //   console.log('data', data);
+      // }).catch((error) => {
+      //   console.log('error', error);
+      // });
+    }
 
-    const data = new FormData();
-
-    data.append("file", target.files[0]);
-    data.append("upload_preset", "fl-springs-deep-dive");
-    data.append("api_key", process.env.CLOUDINARY_API_KEY!);
-    data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
-    data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
-
-    changeUserProfilePicture({formData : data})
-
-    // fetch(url, {
-    //   method: 'POST',
-    //   body: data
-    // }).then((response) => {
-    //   return response.json();
-    // }).then((data) => {
-    //   console.log('data', data);
-    // }).catch((error) => {
-    //   console.log('error', error);
-    // });
   }
 
 
