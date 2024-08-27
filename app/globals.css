@@ -100,7 +100,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  @apply bg-dark-primary;
+  
 }
 
 .btn-active {
@@ -120,6 +120,7 @@ p {
   border-color: white;
   border-width: 1px;
   border-radius: 4px;
+  min-height: 40px;
 
   @apply bg-theme-primary
 
@@ -132,6 +133,7 @@ p {
   border-color: white;
   border-width: 1px;
   border-radius: 4px;
+  min-height: 40px;
 }
 
 

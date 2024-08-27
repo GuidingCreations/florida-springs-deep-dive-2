@@ -66,7 +66,8 @@ export async function createSessionClient() {
         process.env.APPWRITE_USER_COLLECTION_ID!,
         userId,
         {
-          ImageURL: ''
+          ImageURL: '',
+          cloudinaryImageName: ''
         }
       )
 

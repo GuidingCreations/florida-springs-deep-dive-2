@@ -1,67 +1,54 @@
 "use client";
 
+// Imports
+
 import React, { use, useRef } from "react";
-import {
-  changeUserProfilePicture,
-  getLoggedInUser,
-  getUserProfilePicture,
-} from "@/lib/actions/user.action";
+import {changeUserProfilePicture} from "@/lib/actions/user.action";
 import Image from "next/image";
 import PrimaryButton from "./PrimaryButton";
 import { deleteUserProfilePicture } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
-import { uploadImageToCloudinary } from "@/lib/actions/cloudinary.actions";
-import { mkdir } from "fs";
+import { AccountPageProps } from "@/types";
+import { Button } from "./ui/button";
+import { Loader2 } from "lucide-react";
+import { flushSync } from "react-dom";
 
-const cloudinary = require('cloudinary').v2;
-const path = require('path');
-declare type AccountPageProps = {
-  user: any;
-  userPic: any;
-};
 
 
 const AccountPage = (props: AccountPageProps) => {
 
-  console.log('props', props);
+// Declare variables
+  
   const router = useRouter();
-
   const fileRef = useRef<HTMLInputElement>(null);
+  const [previewUserImage, setPreviewUserImage] = React.useState<string | undefined>(props.userPic);
 
-  const [userImage, setUserImage] = React.useState<File | undefined>(
-    props.userPic
-  );
+// Function to handle image change
 
-  const [previewUserImage, setPreviewUserImage] = React.useState<
-    string | undefined
-  >(props.userPic);
+  const handleImageChange = (event: React.FormEvent<HTMLInputElement>) => {
 
-  const handleImageChange = (e: React.FormEvent<HTMLInputElement>) => {
+  flushSync(() => setIsLoading(true) ) 
+  console.log(isLoading)
+  const file = new FileReader();
+  const target = event.target as HTMLInputElement & { files: FileList };
 
-
-   
-
-    const target = e.target as HTMLInputElement & { files: FileList };
-
-    console.log('size,', target.files[0].size)
+// Throw alert if file size is over 10MB
 
     if (target.files[0].size > 10485760) {
       alert("File size should be less than 10MB, please re-select");
       return;
-    } else {
+    } 
+    
+// Else handle image change
+    
+    else {
 
-      setUserImage(target.files[0]);
-  
-      const file = new FileReader();
       file.readAsDataURL(target.files[0]);
-  
       file.onload = () => {
         setPreviewUserImage(file.result as string);
       };
-      
-  
+
       const data = new FormData();
-  
       data.append("file", target.files[0]);
       data.append("upload_preset", "fl-springs-deep-dive");
       data.append("api_key", process.env.CLOUDINARY_API_KEY!);
@@ -70,17 +57,10 @@ const AccountPage = (props: AccountPageProps) => {
   
       changeUserProfilePicture({formData : data})
   
-      // fetch(url, {
-      //   method: 'POST',
-      //   body: data
-      // }).then((response) => {
-      //   return response.json();
-      // }).then((data) => {
-      //   console.log('data', data);
-      // }).catch((error) => {
-      //   console.log('error', error);
-      // });
     }
+
+    window.location.reload();
+    setIsLoading(false);
 
   }
 
@@ -88,9 +68,7 @@ const AccountPage = (props: AccountPageProps) => {
 
 
 
-    // data.append("upload_preset", "fl-springs-deep-dive");
-    // data.append("file", target.files[0]);
-    // data.append("api_key", process.env.CLOUDINARY_API_KEY);
+
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -110,17 +88,36 @@ const AccountPage = (props: AccountPageProps) => {
           />
         </div>
 
+
+
+
         <div className="flex items-center gap-2">
-          <PrimaryButton
+          {/* <PrimaryButton
             buttonText="Change profile picture"
             onClick={() => {
+              const [loading, setLoading] = React.useState(false);
               fileRef.current?.click();
             }}
-          />
+          /> */}
+
+
+          
+        <Button
+            className="btn btn-primary"
+            disabled={isLoading}
+            onClick={() => {fileRef.current?.click();}}
+          >
+            {isLoading ? (
+             <div className="flex gap-1"> <Loader2 className="animate-spin" size={20} /> Loading... </div>
+            ) : 'Change profile picture'
+            
+            }
+
+          </Button>
 
           <PrimaryButton
             buttonText="Delete profile picture"
-            className="bg-red-500"
+            className="bg-red-500 btn btn-destroy"
             onClick={() => {
               setIsLoading(true);
               deleteUserProfilePicture({ userId: props.user.$id }).then(
@@ -133,7 +130,6 @@ const AccountPage = (props: AccountPageProps) => {
               setIsLoading(false);
             }}
             type="destroy"
-            isLoading={isLoading}
           ></PrimaryButton>
         </div>
         <input

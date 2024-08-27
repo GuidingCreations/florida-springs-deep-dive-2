@@ -165,10 +165,12 @@ export async function changeUserProfilePicture({formData} : {formData: FormData}
 
   try {
     
-    const userId = await deleteProfilePictureFromCloudinary();
+    const loggedInUser = await getLoggedInUser();
+    const deleteResponse = await deleteProfilePictureFromCloudinary();
     const uploadToCloudinaryResponse =  await uploadImageToCloudinary(formData);
-    const uploadToAppwriteResponse = await uploadProfilePictureToAppwrite({userId, imageURL : uploadToCloudinaryResponse.secure_url, imageName: uploadToCloudinaryResponse.public_id});
+    const uploadToAppwriteResponse = await uploadProfilePictureToAppwrite({userId : loggedInUser.$id, imageURL : uploadToCloudinaryResponse.secure_url, imageName: uploadToCloudinaryResponse.public_id});
 
+    return {responseCode: 200, response: uploadToAppwriteResponse};
     
   } catch (error) {
     console.log('error changing profile pic', error);
