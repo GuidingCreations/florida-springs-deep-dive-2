@@ -6,9 +6,11 @@ import ImageResourceGenerator from './ImageResourceGenerator'
 
 const MobileHeaderServer = async () => {
 
-    const userPic = await getUserProfilePicture();
+    const userPicData = await getUserProfilePicture();
+    const userPic = userPicData?.userPic;
     const user = await getLoggedInUser();
-    
+    console.log('cloud img name', user.cloudinaryImageName)
+    console.log('user pic', userPic)
     console.log('MHS email', user.email)
     console.log('MHS', userPic)
   return (

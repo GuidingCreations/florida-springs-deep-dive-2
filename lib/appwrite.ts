@@ -2,6 +2,8 @@
 
 import { Client, Account, ID, Databases, Users, Graphql } from "node-appwrite";
 import { cookies } from "next/headers";
+import { getUserProfilePicture } from "./actions/user.action";
+import { destroyImage } from "./actions/cloudinary.actions";
 
 async function createClient () {
   const client = new Client()
@@ -69,6 +71,43 @@ export async function createSessionClient() {
       )
 
       const response = {result : result, responseCode: 200};
+
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  export async function uploadProfilePictureToAppwrite({imageURL, imageName, userId} : {imageURL: string, imageName: string, userId: string}) {
+    try {
+
+      // init
+
+      const client = await createClient();
+      const databases = new Databases(client);
+
+      // Grab existing profile pic
+
+      
+      
+      // Update profile pic in appwrite
+
+      const result = await databases.updateDocument(
+        process.env.NEXT_APPWRITE_DATABASE_ID!,
+        process.env.APPWRITE_USER_COLLECTION_ID!,
+        userId,
+        {
+          ImageURL: imageURL,
+          cloudinaryImageName: imageName
+        }
+      )
+
+      // upload profile pic 
+
+
+
+
+      const response = {result: result, responseCode: 200};
 
       return response;
     } catch (error) {

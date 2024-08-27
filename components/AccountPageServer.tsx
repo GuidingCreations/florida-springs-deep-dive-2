@@ -10,12 +10,13 @@ const AccountPageServer = async () => {
   const user = await getLoggedInUser();
   console.log('Logged in user', user)
   const userPic = await getUserProfilePicture();
+  console.log('User pic ser', userPic?.userPic)
 
   return (
     <>
     <AccountPage 
     user={user ? user : {}}
-    userPic={userPic ? userPic : '/icons/blank-profile.svg'}
+    userPic={userPic ? userPic.userPic : '/icons/blank-profile.svg'}
     />
      
 

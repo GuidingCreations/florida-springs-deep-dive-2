@@ -1,10 +1,11 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient, createSessionClient } from "../appwrite";
+import { createAdminClient, createSessionClient, uploadProfilePictureToAppwrite } from "../appwrite";
 import { cookies } from "next/headers";
 import { parseStringify } from "../utils";
 import { SignUpParams } from "@/types";
+import { deleteProfilePictureFromCloudinary, destroyImage, uploadImageToCloudinary } from "./cloudinary.actions";
 
 const {
   NEXT_APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -124,7 +125,7 @@ export async function getLoggedInUser() {
     console.log("Admin client created", account)
     
     const result = await account.get();
-    
+
     console.log("Account result", result);
     const user = await getUserInfo({ userId: result.$id });
     console.log("logged in user", user);
@@ -143,13 +144,36 @@ export async function getUserProfilePicture() {
     if (user?.responseCode === 500) {
       return null;
     } else {
+      
       if (user.ImageURL) {
-        return user.ImageURL;
+
+        const resonse = {userPic: user.ImageURL, responseCode: 200, cloudinaryImageName: user.cloudinaryImageName, userId : user.$id}
+
+        return resonse ;
       } else {
-        return '/icons/blank-profile.svg'}
+        return {userPic: '/icons/blank-profile.svg', responseCode: 500, cloudinaryImageName: '', userId: ''}}
     }
   
   } catch (error) {
     console.log("Error getting user profile picture", error);
   }
+}
+
+export async function changeUserProfilePicture({formData} : {formData: FormData}) {
+  
+  // Delete existing profile picture from cloudinary
+
+  try {
+    
+    const userId = await deleteProfilePictureFromCloudinary();
+    const uploadToCloudinaryResponse =  await uploadImageToCloudinary(formData);
+    const uploadToAppwriteResponse = await uploadProfilePictureToAppwrite({userId, imageURL : uploadToCloudinaryResponse.secure_url, imageName: uploadToCloudinaryResponse.public_id});
+
+    
+  } catch (error) {
+    console.log('error changing profile pic', error);
+  }
+      // If there is an existing user profile pic, delete it from cloudinary
+
+      
 }

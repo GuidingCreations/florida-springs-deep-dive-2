@@ -1,8 +1,9 @@
 //Imports
 
 'use server';
+import { uploadProfilePictureToAppwrite } from "../appwrite";
+import { getLoggedInUser, getUserProfilePicture } from "./user.action";
 const cloudinary = require('cloudinary').v2;
-import axios from 'axios';
 
 // Set env names
 
@@ -11,6 +12,8 @@ const {
   apiKey = process.env.CLOUDINARY_API_KEY,
   apiSecret = process.env.CLOUDINARY_API_SECRET
 } = process.env;
+
+const uploadURL = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
 
 // Configure cloudinary
 
@@ -22,11 +25,11 @@ cloudinary.config({
 
 // Delete profile image
 
-export const destroyImage = async () => {
+export const destroyImage = async (imageName : string) => {
     console.log('cloud name', cloudName)
 
     
-    const result = await cloudinary.uploader.destroy('alligator', function(error : any, result : any) {
+    const result = await cloudinary.uploader.destroy(imageName, function(error : any, result : any) {
       console.log(result, error);
     });
     console.log('destroy result', result);
@@ -43,23 +46,23 @@ export const destroyImage = async () => {
 
 // Upload profile image
 
-  export const uploadImage = async (fd : FormData) => {
+  export const uploadImageToCloudinary = async (formData : FormData) => {
 
     try {
-      console.log('fd', fd);
-    
-    const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
-    
-    
-    const cloudinaryResponse = await fetch(url, {
-      method: 'POST',
-      body: fd
-    })
 
-    const data = await cloudinaryResponse.json();
-    console.log('data', data);
+    // Add image to cloudinary
+
+    const cloudinaryResponse = await fetch(uploadURL, {
+      method: 'POST',
+      body: formData
+    });
+
+    const cloudinaryResponseData = await cloudinaryResponse.json();
+
+    
+    console.log('data', cloudinaryResponseData);
  
-    return data;
+    return cloudinaryResponseData;
 
       
     } catch (error) {
@@ -75,3 +78,15 @@ export const destroyImage = async () => {
 
 
   }
+
+export const deleteProfilePictureFromCloudinary = async () => {
+    
+    const currentUserPic = await getUserProfilePicture();
+
+    if (currentUserPic?.userPic !== '/icons/blank-profile.svg') {
+        destroyImage(currentUserPic?.cloudinaryImageName);
+        console.log('destroyed image');
+        return currentUserPic?.userId;
+    }
+
+}

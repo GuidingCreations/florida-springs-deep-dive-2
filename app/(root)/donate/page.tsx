@@ -9,7 +9,7 @@ const page = () => {
   console.log('env', process.env.CLOUDINARY_CLOUD_NAME)
   return ( <>
   
-  <button onClick={() => destroyImage()}>Destroy</button>
+
   
   </> )
 }

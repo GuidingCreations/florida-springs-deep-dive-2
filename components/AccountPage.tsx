@@ -2,6 +2,7 @@
 
 import React, { use, useRef } from "react";
 import {
+  changeUserProfilePicture,
   getLoggedInUser,
   getUserProfilePicture,
 } from "@/lib/actions/user.action";
@@ -9,7 +10,7 @@ import Image from "next/image";
 import PrimaryButton from "./PrimaryButton";
 import { deleteUserProfilePicture } from "@/lib/appwrite";
 import { useRouter } from "next/navigation";
-import { uploadImage } from "@/lib/actions/cloudinary.actions";
+import { uploadImageToCloudinary } from "@/lib/actions/cloudinary.actions";
 import { mkdir } from "fs";
 
 const cloudinary = require('cloudinary').v2;
@@ -21,6 +22,8 @@ declare type AccountPageProps = {
 
 
 const AccountPage = (props: AccountPageProps) => {
+
+  console.log('props', props);
   const router = useRouter();
 
   const fileRef = useRef<HTMLInputElement>(null);
@@ -44,7 +47,8 @@ const AccountPage = (props: AccountPageProps) => {
     file.onload = () => {
       setPreviewUserImage(file.result as string);
     };
-    const url = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/upload`;
+    
+
     const data = new FormData();
 
     data.append("file", target.files[0]);
@@ -53,11 +57,7 @@ const AccountPage = (props: AccountPageProps) => {
     data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
     data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
 
-    uploadImage(data).then((response) => {
-      console.log('response', response);
-    }).catch((error) => {
-      console.log('error', error);
-    });
+    changeUserProfilePicture({formData : data})
 
     // fetch(url, {
     //   method: 'POST',
