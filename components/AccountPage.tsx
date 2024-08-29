@@ -36,6 +36,7 @@ const AccountPage = (props: AccountPageProps) => {
 
     if (target.files[0].size > 10485760) {
       alert("File size should be less than 10MB, please re-select");
+      setIsLoading(false);
       return;
     } 
     
@@ -55,12 +56,14 @@ const AccountPage = (props: AccountPageProps) => {
       data.append("api_secret", process.env.CLOUDINARY_API_SECRET!);
       data.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME!);
   
-      changeUserProfilePicture({formData : data})
+      changeUserProfilePicture({formData : data}).then((response) => {
+        window.location.reload()})
+      }
   
-    }
+    
 
-    window.location.reload();
-    setIsLoading(false);
+    
+    
 
   }
 
@@ -92,20 +95,17 @@ const AccountPage = (props: AccountPageProps) => {
 
 
         <div className="flex items-center gap-2">
-          {/* <PrimaryButton
-            buttonText="Change profile picture"
-            onClick={() => {
-              const [loading, setLoading] = React.useState(false);
-              fileRef.current?.click();
-            }}
-          /> */}
-
+          
 
           
         <Button
             className="btn btn-primary"
             disabled={isLoading}
-            onClick={() => {fileRef.current?.click();}}
+            onClick={() => {
+            setIsLoading(true);
+              fileRef.current?.click();
+            
+            }}
           >
             {isLoading ? (
              <div className="flex gap-1"> <Loader2 className="animate-spin" size={20} /> Loading... </div>
