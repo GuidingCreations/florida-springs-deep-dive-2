@@ -57,3 +57,8 @@ export type MobileHeaderProps = {
   userPic: any;
   userEmail: string | undefined;
 }
+
+export type AccountPageProps = {
+  user: any;
+  userPic: any;
+};
